@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 游戏</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <header class="header">
+            <h1 class="title">2048</h1>
+            <div class="score-container">
+                <div class="score-box">
+                    <span class="score-label">分数</span>
+                    <span class="score" id="score">0</span>
+                </div>
+                <div class="best-score-box">
+                    <span class="score-label">最高分</span>
+                    <span class="best-score" id="best-score">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="controls">
+            <button id="restart-btn" class="btn">重新开始</button>
+            <button id="undo-btn" class="btn" disabled>撤销</button>
+            <button id="redo-btn" class="btn" disabled>重做</button>
+            <button id="auto-play-btn" class="btn">自动游戏</button>
+        </div>
+
+        <div class="game-board-container">
+            <div class="game-board" id="game-board">
+                <!-- 4x4 网格将通过JavaScript动态生成 -->
+                <div class="grid-container" id="grid-container">
+                    <!-- 背景网格 -->
+                </div>
+                <div class="tile-container" id="tile-container">
+                    <!-- 游戏方块 -->
+                </div>
+            </div>
+        </div>
+
+        <div class="game-message-container" id="game-message">
+            <div class="game-message">
+                <div class="message-text"></div>
+                <div class="message-buttons">
+                    <button class="btn" id="try-again-btn">再试一次</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <p><strong>游戏规则：</strong> 使用方向键移动方块。当两个相同数字的方块碰撞时，它们会合并成一个！</p>
+        </div>
+    </div>
+
+    <script src="js/BoardManager.js"></script>
+    <script src="js/GameEngine.js"></script>
+    <script src="js/UIRenderer.js"></script>
+    <script src="js/InputController.js"></script>
+    <script src="js/AnimationSystem.js"></script>
+    <script src="js/HistoryManager.js"></script>
+    <script src="js/AIEngine.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,323 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    background-color: #faf8ef;
+    color: #776e65;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.game-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 标题和分数区域 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 48px;
+    font-weight: bold;
+    color: #776e65;
+    margin: 0;
+}
+
+.score-container {
+    display: flex;
+    gap: 10px;
+}
+
+.score-box, .best-score-box {
+    background: #bbada0;
+    padding: 10px 15px;
+    border-radius: 3px;
+    text-align: center;
+    min-width: 80px;
+}
+
+.score-label {
+    display: block;
+    font-size: 13px;
+    color: #eee4da;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.score, .best-score {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+/* 控制按钮 */
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    background: #8f7a66;
+    color: #f9f6f2;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover:not(:disabled) {
+    background: #9f8a76;
+}
+
+.btn:disabled {
+    background: #bbada0;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 游戏棋盘 */
+.game-board-container {
+    position: relative;
+    padding: 15px;
+    background: #bbada0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.game-board {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* 1:1 aspect ratio */
+}
+
+.grid-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.grid-cell {
+    background: rgba(238, 228, 218, 0.35);
+    border-radius: 3px;
+}
+
+.tile-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 游戏方块 */
+.tile {
+    position: absolute;
+    width: calc((100% - 45px) / 4);
+    height: calc((100% - 45px) / 4);
+    background: #eee4da;
+    border-radius: 3px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    transition: all 0.15s ease-in-out;
+    will-change: transform;
+}
+
+/* 方块位置 - 与网格完全对应 */
+.tile-position-0-0 { top: 0; left: 0; }
+.tile-position-0-1 { top: 0; left: calc((100% + 15px) / 4); }
+.tile-position-0-2 { top: 0; left: calc((100% + 15px) / 4 * 2); }
+.tile-position-0-3 { top: 0; left: calc((100% + 15px) / 4 * 3); }
+.tile-position-1-0 { top: calc((100% + 15px) / 4); left: 0; }
+.tile-position-1-1 { top: calc((100% + 15px) / 4); left: calc((100% + 15px) / 4); }
+.tile-position-1-2 { top: calc((100% + 15px) / 4); left: calc((100% + 15px) / 4 * 2); }
+.tile-position-1-3 { top: calc((100% + 15px) / 4); left: calc((100% + 15px) / 4 * 3); }
+.tile-position-2-0 { top: calc((100% + 15px) / 4 * 2); left: 0; }
+.tile-position-2-1 { top: calc((100% + 15px) / 4 * 2); left: calc((100% + 15px) / 4); }
+.tile-position-2-2 { top: calc((100% + 15px) / 4 * 2); left: calc((100% + 15px) / 4 * 2); }
+.tile-position-2-3 { top: calc((100% + 15px) / 4 * 2); left: calc((100% + 15px) / 4 * 3); }
+.tile-position-3-0 { top: calc((100% + 15px) / 4 * 3); left: 0; }
+.tile-position-3-1 { top: calc((100% + 15px) / 4 * 3); left: calc((100% + 15px) / 4); }
+.tile-position-3-2 { top: calc((100% + 15px) / 4 * 3); left: calc((100% + 15px) / 4 * 2); }
+.tile-position-3-3 { top: calc((100% + 15px) / 4 * 3); left: calc((100% + 15px) / 4 * 3); }
+
+/* 不同数值方块的样式 */
+.tile-2 { background: #eee4da; color: #776e65; }
+.tile-4 { background: #ede0c8; color: #776e65; }
+.tile-8 { background: #f2b179; color: #f9f6f2; }
+.tile-16 { background: #f59563; color: #f9f6f2; }
+.tile-32 { background: #f67c5f; color: #f9f6f2; }
+.tile-64 { background: #f65e3b; color: #f9f6f2; }
+.tile-128 { background: #edcf72; color: #f9f6f2; font-size: 28px; }
+.tile-256 { background: #edcc61; color: #f9f6f2; font-size: 28px; }
+.tile-512 { background: #edc850; color: #f9f6f2; font-size: 28px; }
+.tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 24px; }
+.tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 24px; }
+
+/* 超级方块样式 */
+.tile-super { background: #3c3a32; color: #f9f6f2; font-size: 20px; }
+
+/* 动画效果 */
+.tile-new {
+    animation: appear 0.2s ease-in-out;
+}
+
+.tile-merged {
+    animation: pop 0.2s ease-in-out;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* 游戏消息 */
+.game-message-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(119, 110, 101, 0.73);
+    z-index: 100;
+    text-align: center;
+    display: none;
+}
+
+.game-message-container.visible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-message {
+    background: #f9f6f2;
+    padding: 30px;
+    border-radius: 6px;
+    max-width: 400px;
+    margin: 20px;
+}
+
+.message-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #776e65;
+    margin-bottom: 20px;
+}
+
+.message-buttons {
+    margin-top: 20px;
+}
+
+/* 说明文字 */
+.instructions {
+    text-align: center;
+    font-size: 16px;
+    color: #776e65;
+    margin-top: 20px;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 600px) {
+    .game-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+    
+    .title {
+        font-size: 36px;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .score-container {
+        justify-content: center;
+    }
+    
+    .controls {
+        justify-content: center;
+    }
+    
+    .tile {
+        font-size: 24px;
+    }
+    
+    .tile-128, .tile-256, .tile-512 {
+        font-size: 20px;
+    }
+    
+    .tile-1024, .tile-2048 {
+        font-size: 18px;
+    }
+    
+    .tile-super {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .tile {
+        font-size: 20px;
+    }
+    
+    .tile-128, .tile-256, .tile-512 {
+        font-size: 18px;
+    }
+    
+    .tile-1024, .tile-2048 {
+        font-size: 16px;
+    }
+    
+    .tile-super {
+        font-size: 14px;
+    }
+} 
